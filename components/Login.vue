@@ -21,7 +21,7 @@ import { ref } from 'vue';
 const name = ref('');
 const email = ref('');
 const errMsg = ref('');
-const form = ref(false);
+const form = ref(null);
 
 const submitForm = () => {
   let { isValid, errorText } = form?.value.validate();

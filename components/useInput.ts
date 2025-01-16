@@ -1,11 +1,5 @@
-import { ref, watch } from "vue";
-
-type allValueType = string | number | boolean
-
-interface InputProps {
-  modelValue: allValueType
-  rules: Function[]
-}
+import type { allValueType, InputProps } from './../types/formType';
+import { ref } from "vue";
 
 export function useInput(props: InputProps, emit: Function) {
   const errorTexts = ref<string[]>([]);
@@ -33,12 +27,6 @@ export function useInput(props: InputProps, emit: Function) {
     emit("update:modelValue", newVal);
     inputValidate()
   }
-
-  // // Sync with props.modelValue
-  // watch(
-  //   () => props.modelValue,
-  //   () => { inputValidate() }
-  // );
 
   return {
     errorTexts,
