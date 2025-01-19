@@ -4,6 +4,7 @@
     <input
       :value="modelValue"
       @input="(e) => onInput(e.target.value)"
+      @change="(e) => emit('change', e.target.value)"
       :class="{ error: errorTexts.length }"
     />
     <div v-if="showError" class="error-messages">
@@ -14,7 +15,7 @@
 
 <script setup>
 import { inject, onMounted, onBeforeUnmount } from "vue";
-import { useInput } from "./useInput";
+import { useValidate } from "./useValidate";
 
 const props = defineProps({
   modelValue: [String, Number], // Input value (v-model)
@@ -29,11 +30,11 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "change"]);
 
 const form = inject("form", null); // Access form context
 
-const { errorTexts, inputValidate, resetInputValidate, resetInput, onInput } = useInput(props, emit);
+const { errorTexts, inputValidate, resetInputValidate, resetInput, onInput } = useValidate(props, emit);
 
 onMounted(() => {
   form?.register({ inputValidate, resetInputValidate, resetInput });

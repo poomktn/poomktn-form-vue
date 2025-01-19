@@ -1,11 +1,12 @@
 <template>
   <CustomForm ref="form">
     <CustomInput
-      v-model="name"
+      v-model="info.name"
+      @change="e => {info.name = Number(e) || e}"
       label="Name"
-      :rules="[v => !!v || 'Name is required', v => v.length <= 10 || 'Max 10 characters']" />
+      :rules="[v => !!v || 'Name is required',v => !isNaN(Number(v)) || 'Need number' , v => v.length <= 10 || 'Max 10 characters']" />
     <CustomInput
-      v-model="email"
+      v-model="info.email"
       label="Email"
       :rules="[v => !!v || 'Email is required', v => /.+@.+\..+/.test(v) || 'Invalid email']" />
       <span>{{errMsg}}</span>
@@ -18,17 +19,21 @@
 <script setup>
 import { ref } from 'vue';
 
-const name = ref('');
-const email = ref('');
+const info = reactive({
+  name: '',
+  email: ''
+});
 const errMsg = ref('');
 const form = ref(null);
 
 const submitForm = () => {
   let { isValid, errorText } = form?.value.validate();
   if (isValid) {
+    console.log(info)
     console.log('Form is valid!');
     errMsg.value = 'form is valid!'
   } else {
+    console.log(info)
     errMsg.value = errorText
     console.log('Form is invalid!', errorText);
   }
