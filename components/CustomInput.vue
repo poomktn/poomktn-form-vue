@@ -2,9 +2,11 @@
   <div class="input-wrapper">
     <label>{{ label }}</label>
     <input
+      :id="id"
+      :name="name"
       :value="modelValue"
       @input="(e) => onInput(e.target.value)"
-      @change="(e) => emit('change', e.target.value)"
+      @change="(e) => emit('change', e)"
       :class="{ error: errorTexts.length }"
     />
     <div v-if="showError" class="error-messages">
@@ -18,6 +20,8 @@ import { inject, onMounted, onBeforeUnmount } from "vue";
 import { useValidate } from "./useValidate";
 
 const props = defineProps({
+  id: String,
+  name: String,
   modelValue: [String, Number], // Input value (v-model)
   rules: {
     type: Array,

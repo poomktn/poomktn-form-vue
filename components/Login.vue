@@ -2,8 +2,9 @@
   <CustomForm ref="form">
     <CustomInput
       v-model="info.name"
-      @change="e => {info.name = Number(e) || e}"
+      @change="convertToNumber"
       label="Name"
+      name="name"
       :rules="[v => !!v || 'Name is required',v => !isNaN(Number(v)) || 'Need number' , v => v.length <= 10 || 'Max 10 characters']" />
     <CustomInput
       v-model="info.email"
@@ -25,6 +26,11 @@ const info = reactive({
 });
 const errMsg = ref('');
 const form = ref(null);
+
+const convertToNumber = (e) => {
+  const { name, value } = e.target
+  info[name] = Number(value) || value
+}
 
 const submitForm = () => {
   let { isValid, errorText } = form?.value.validate();
