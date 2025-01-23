@@ -17,7 +17,6 @@
 
 <script setup>
 import { inject, onMounted, onBeforeUnmount } from "vue";
-import { useValidate } from "./useValidate";
 
 const props = defineProps({
   id: String,

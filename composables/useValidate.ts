@@ -1,5 +1,5 @@
-import type { allValueType, InputProps } from '../types/formType';
 import { ref } from "vue";
+import type { allValueType, InputProps } from '~/types/formType';
 
 export function useValidate(props: InputProps, emit: Function) {
   const errorTexts = ref<string[]>([]);
