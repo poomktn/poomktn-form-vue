@@ -1,20 +1,18 @@
 <template>
   <CustomForm ref="form">
-    <CustomInput
-      v-model="info.name"
-      @change="convertToNumber"
-      label="Name"
-      name="name"
-      :rules="[v => !!v || 'Name is required',v => !isNaN(Number(v)) || 'Need number' , v => v.length <= 10 || 'Max 10 characters']" />
-    <CustomInput
-      v-model="info.email"
-      label="Email"
+    <CustomInput v-model="info.name" @change="convertToNumber" label="Name" name="name"
+      :rules="[v => !!v || 'Name is required', v => !isNaN(Number(v)) || 'Need number', v => v.length <= 10 || 'Max 10 characters']" />
+    <CustomInput v-model="info.email" label="Email"
       :rules="[v => !!v || 'Email is required', v => /.+@.+\..+/.test(v) || 'Invalid email']" />
-      <span>{{errMsg}}</span>
+    <span>{{ errMsg }}</span>
+    <CustomInput v-model="info.test" @change="convertToNumber" label="test" name="test" :validate-on-input="false"
+      :rules="[v => !!v || 'test is required', v => !isNaN(Number(v)) || 'Need number', v => v.length <= 10 || 'Max 10 characters']" />
     <button type="button" @click="submitForm">Submit</button>
     <button type="button" @click="resetAllForm">Reset All</button>
     <button type="button" @click="resetErrorForm">Reset</button>
   </CustomForm>
+  <CustomInput v-model="sep" @change="e => toNumber(e, sep.value)" label="sep" name="sep" validate-on-blur
+      :rules="[v => !!v || 'sep is required', v => !isNaN(Number(v)) || 'Need number', v => v.length <= 10 || 'Max 10 characters']" />
 </template>
 
 <script setup>
@@ -22,10 +20,17 @@ import { ref } from 'vue';
 
 const info = reactive({
   name: '',
-  email: ''
+  email: '',
+  test: ''
 });
+const sep = ref('');
 const errMsg = ref('');
 const form = ref(null);
+
+const toNumber = (e, temp) => {
+  const { value } = e.target
+  temp = Number(value) || value
+}
 
 const convertToNumber = (e) => {
   const { name, value } = e.target

@@ -12,4 +12,6 @@ export interface InputProps {
   modelValue: allValueType;
   rules: Function[];
   onUpdateModelValue: (value: allValueType) => void;
+  validateOnInput: boolean;
+  validateOnBlur: boolean;
 }

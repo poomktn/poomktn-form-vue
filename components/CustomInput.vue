@@ -6,10 +6,10 @@
       :name="name"
       :value="modelValue"
       @input="(e) => onInput(e.target.value)"
-      @change="(e) => emit('change', e)"
+      @change="onChange"
       :class="{ error: errorTexts.length }"
     />
-    <div v-if="showError" class="error-messages">
+    <div v-show="showError" class="error-messages">
       <p>{{ errorTexts[0] }}</p>
     </div>
   </div>
@@ -30,14 +30,27 @@ const props = defineProps({
   showError: {
     type: Boolean,
     default: true
-  }
+  },
+  validateOnBlur: {
+    type: Boolean,
+    default: false
+  },
+  validateOnInput: {
+    type: Boolean,
+    default: true
+  },
 });
 
 const emit = defineEmits(["update:modelValue", "change"]);
 
 const form = inject("form", null); // Access form context
 
-const { errorTexts, inputValidate, resetInputValidate, resetInput, onInput } = useValidate(props, emit);
+const { errorTexts, inputValidate, resetInputValidate, resetInput, onInput, actionOnBlur } = useValidate(props, emit);
+
+const onChange = (e) => {
+  emit('change', e)
+  actionOnBlur()
+}
 
 onMounted(() => {
   form?.register({ inputValidate, resetInputValidate, resetInput });
