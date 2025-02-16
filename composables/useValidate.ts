@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import type { allValueType, InputProps } from '~/types/formType';
 
-export function useValidate({ rules, modelValue, validateOnBlur, validateOnInput }: InputProps, emit: Function) {
+export function useValidate({ rules = [], modelValue = '', validateOnBlur = false, validateOnInput = true }: InputProps, emit: Function) {
   const errorTexts = ref<string[]>([]);
   const localValue = ref<allValueType>(modelValue);
 
