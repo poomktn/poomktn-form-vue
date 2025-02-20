@@ -5,12 +5,12 @@ export interface InputValidateProps {
 }
 
 export type rulesProps = (input?: allValueType) => string | boolean
-
-export type allValueType = string | number | boolean
+export type RenderValueType = string | number
+export type allValueType = RenderValueType | boolean
 
 export interface InputProps {
-  modelValue: allValueType;
-  rules: Function[];
+  modelValue: RenderValueType;
+  rules: ((v: RenderValueType) => boolean | string)[];
   onUpdateModelValue: (value: allValueType) => void;
   validateOnInput: boolean;
   validateOnBlur: boolean;

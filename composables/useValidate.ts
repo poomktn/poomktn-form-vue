@@ -1,12 +1,12 @@
 import { ref } from "vue";
-import type { allValueType, InputProps } from '~/types/formType';
+import type { allValueType, InputProps, RenderValueType } from '~/types/formType';
 
 export function useValidate({ rules = [], modelValue = '', validateOnBlur = false, validateOnInput = true }: InputProps, emit: Function) {
   const errorTexts = ref<string[]>([]);
-  const localValue = ref<allValueType>(modelValue);
+  const localValue = ref<RenderValueType>(modelValue);
 
   const inputValidate = () => {
-    errorTexts.value = rules.map((rule) => rule(localValue.value)).filter((result) => result !== true);
+    errorTexts.value = rules.map((rule) => rule(localValue.value as string)).filter((result) => result !== true) as string[];
     let errText = ''
     let valid = errorTexts.value.length === 0;
     if (!valid) {
@@ -25,7 +25,7 @@ export function useValidate({ rules = [], modelValue = '', validateOnBlur = fals
     resetInputValidate();
   };
 
-  const onInput = (newVal: allValueType) => {
+  const onInput = (newVal: RenderValueType) => {
     localValue.value = newVal
     emit("update:modelValue", newVal);
     if (!validateOnBlur && validateOnInput) inputValidate();
