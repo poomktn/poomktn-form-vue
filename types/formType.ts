@@ -7,6 +7,7 @@ export interface InputValidateProps {
 export type rulesProps = (input?: allValueType) => string | boolean
 export type RenderValueType = string | number
 export type allValueType = RenderValueType | boolean
+export type emitType = (update: string, val: RenderValueType) => void
 
 export interface InputProps {
   modelValue: RenderValueType;
